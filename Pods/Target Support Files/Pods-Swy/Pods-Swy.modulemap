@@ -1,0 +1,6 @@
+framework module Pods_Swy {
+  umbrella header "Pods-Swy-umbrella.h"
+
+  export *
+  module * { export * }
+}
