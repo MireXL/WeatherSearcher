@@ -39,8 +39,7 @@ class WeatherViewController: UIViewController{
         sortingDataFunc()
 
         super.viewDidLoad()
-        
-        
+
         // Do any additional setup after loading the view.
     }
     
@@ -49,44 +48,23 @@ class WeatherViewController: UIViewController{
         // Dispose of any resources that can be recreated.
     }
     
-    @objc func sortingDataFunc(){
-        guard let date = WeatherForNow?.date,
-        let skyDescription = WeatherForNow?.sky.description,
-        let skyIcon = WeatherForNow?.sky.weatherIcon,
-        let temperature = WeatherForNow?.measurement.temp,
-        let maxTemperature = WeatherForNow?.measurement.tempMax,
-        let minTemperature = WeatherForNow?.measurement.tempMin,
-        let windSpeed = WeatherForNow?.windSpeed,
-        let cityName = WeatherForNow?.cityName,
-        let counrty = WeatherForNow?.counrty,
-        let coordinatesLn = WeatherForNow?.geolocation.ln,
-        let coordinatesLt = WeatherForNow?.geolocation.lt,
-        let pressure = WeatherForNow?.measurement.pressure else {return}
+    func sortingDataFunc(){
+        guard let weatherData = WeatherForNow else {return}
         
-        
-        windLabel.text = "Wind Speed"
-        dateLabel.text = "Date"
-        townLabel.text = "Town,Country"
-        skyLabel.text = "Weather"
-        temperatureLabel.text = "Temperature"
-        pressureLabel.text = "Pressure"
-        coordinatesLabel.text = "Cooredinates"
-        
-        if temperature < 0 {
-             temperatureDescriptionLabel.textColor = UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 1)
-        }else if temperature > 0{
-            temperatureDescriptionLabel.textColor = UIColor(red:76/255, green: 217/255, blue: 100/255, alpha: 1)
-            
+        if weatherData.measurement.temp < 0 {
+             temperatureDescriptionLabel.textColor = UIColor.lightBlue
+        }else if weatherData.measurement.temp > 0 {
+            temperatureDescriptionLabel.textColor = UIColor.salatGreen
         }
 
-        windDescriptionLabel.text = "\(windSpeed)"
-        dateDescriptionLabel.text = date
-        townDescriptionLabel.text = "\(cityName),\(counrty)"
-        skyDescriptionLabel.text = skyDescription
-        temperatureDescriptionLabel.text = "\(String(format:"%.2f",temperature)),Max:\(String(format:"%.2f",maxTemperature)),Min:\(String(format:"%.2f",minTemperature))"
-        pressureDescriptionLabel.text = "\(pressure)"
-        coordinatesDescriptionLabel .text = "\(coordinatesLn),\(coordinatesLt)"
-        imageForIcon.sd_setImage(with:skyIcon, placeholderImage: UIImage(named: "placeholder.png"))
+        windDescriptionLabel.text = "\(weatherData.windSpeed)"
+        dateDescriptionLabel.text = weatherData.date
+        townDescriptionLabel.text = "\(weatherData.cityName),\(weatherData.counrty)"
+        skyDescriptionLabel.text = weatherData.sky.description
+        temperatureDescriptionLabel.text = "\(String(format:"%.2f",weatherData.measurement.temp)),Max:\(String(format:"%.2f",weatherData.measurement.tempMax)),Min:\(String(format:"%.2f",weatherData.measurement.tempMin))"
+        pressureDescriptionLabel.text = "\(weatherData.measurement.pressure)"
+        coordinatesDescriptionLabel .text = "\(weatherData.geolocation.ln),\(weatherData.geolocation.lt)"
+        imageForIcon.sd_setImage(with:weatherData.sky.weatherIcon, placeholderImage: UIImage(named: "placeholder.png"))
         
         
     }

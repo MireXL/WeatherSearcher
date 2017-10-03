@@ -16,6 +16,7 @@ struct Weather {
     let cityName : String
     let counrty : String
     let geolocation : Coordinates
+    
     init?(rawResponseForNow: [String: Any],weatherArray: [[String:Any]]) {
         
         guard

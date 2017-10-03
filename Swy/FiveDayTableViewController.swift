@@ -20,7 +20,7 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         
         self.fiveDaysTableView.rowHeight = UITableViewAutomaticDimension
         self.fiveDaysTableView.estimatedRowHeight = 400
-        DrawGraph()
+        drawGraph()
         
         super.viewDidLoad()
         
@@ -48,110 +48,50 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         //print(valueArrayForCell[indexPath.row])
     }
     
-    func DrawGraph(){
-        var temperatureArr = [Int]()
-        var path = 12
-        for temp in forecast {
-            temperatureArr.append(Int(temp.measurement.temp))
-        }
-        guard let maxTemp = temperatureArr.max(),
-            let minTemp = temperatureArr.min() else {return}
-        let multiplierForMax = Int((Int(scrollVewForGraoh.frame.height)/maxTemp))
-        let multiplierForMin = Int((Int(scrollVewForGraoh.frame.height)/minTemp))
-        var graphMultiplier = Int()
-        var yAxis = Int()
-        if multiplierForMin < multiplierForMax && multiplierForMin > 0 {
-            
-            graphMultiplier = multiplierForMin - 1
-            
-        } else  if -multiplierForMin < multiplierForMax &&  multiplierForMin < 0{
-            graphMultiplier = -(multiplierForMin-1)/2
-            
-        } else  if multiplierForMin < multiplierForMax &&  multiplierForMin < 0{
-            graphMultiplier = (multiplierForMax-1)/2
-            
-        }else {
-            
-            graphMultiplier = multiplierForMax - 1
-        }
-        print(graphMultiplier)
-        if minTemp < 0 {
-            
-            for temp in temperatureArr{
-                let line = CAShapeLayer()
-                let linePath = UIBezierPath()
-                linePath.move(to: CGPoint(x:path, y:Int(scrollVewForGraoh.frame.height/2)))
-                let codedLabel:UILabel = UILabel()
-                if temp < 0 {
+    func drawGraph(){
+        let graphDraw = GraphDraw()
+        let points = graphDraw.drawGraphFunc(forecast: forecast, viewHeight: Int(scrollVewForGraoh.frame.height))
+        guard let min = points.temp.min() else {return}
+
+        for i in 0..<points.x.count{
+            let codedLabel:UILabel = UILabel()
+            codedLabel.frame.size = CGSize(width: 21, height: 21)
+            codedLabel.center.x = CGFloat(points.x[i])
+            let line = CAShapeLayer()
+            let linePath = UIBezierPath()
+            if min < 0 {
+                linePath.move(to: CGPoint(x: points.x[i], y:Int(scrollVewForGraoh.frame.height/2)))
+                if points.temp[i] < 0 {
                     
-                    if (Int(scrollVewForGraoh.frame.height/2) - Int(temp)*graphMultiplier) > Int(scrollVewForGraoh.frame.height) {
-                        yAxis = Int(scrollVewForGraoh.frame.height)
-                    }else {
-                        
-                        yAxis = Int(scrollVewForGraoh.frame.height/2)-Int(temp)*graphMultiplier
-                    }
-                    line.strokeColor = UIColor(red:90/255, green: 200/255, blue: 250/255, alpha: 1).cgColor
+                    line.strokeColor = UIColor.lightBlue.cgColor
+                    codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height/2 - codedLabel.frame.width/2)
+                } else {
                     
-                    codedLabel.frame = CGRect(x: path - 12, y: Int(scrollVewForGraoh.frame.height/2) - 21 , width: 21, height: 21)
-                    codedLabel.text = "\(temp)"
-                }else{
-                    
-                    if Int(scrollVewForGraoh.frame.height) - temp*graphMultiplier > Int(scrollVewForGraoh.frame.height) {
-                        yAxis = 20
-                    }else {
-                        
-                        yAxis = Int(scrollVewForGraoh.frame.height/2) - temp*graphMultiplier
-                    }
-                    
-                    line.strokeColor = UIColor(red:255/255, green: 217/255, blue: 48/255, alpha: 1).cgColor
-                    
-                    codedLabel.frame = CGRect(x: path - 10, y:Int(scrollVewForGraoh.frame.height/2), width: 21, height: 21)
-                    codedLabel.text = "\(temp)"
-                }
-                linePath.addLine(to: CGPoint(x: path, y:yAxis))
-                line.path = linePath.cgPath
-                line.lineWidth = 15
-                line.lineJoin = kCALineJoinRound
-                scrollVewForGraoh.layer.addSublayer(line)
+                    line.strokeColor = UIColor.sunnyYellow.cgColor
+                    codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height/2 + codedLabel.frame.width/2)
+                }      
+            }else{
                 
-                codedLabel.textAlignment = .center
-                codedLabel.numberOfLines=1
-                codedLabel.textColor=UIColor.black
-                codedLabel.font=UIFont.systemFont(ofSize: 10)
-                scrollVewForGraoh.addSubview(codedLabel)
-                path += 23
+                linePath.move(to: CGPoint(x: points.x[i], y:Int(scrollVewForGraoh.frame.height) - 21))
+                line.strokeColor = UIColor.sunnyYellow.cgColor
+                codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height - codedLabel.frame.width/2)
+                
             }
-        }else {
             
-            for temp in temperatureArr{
-                
-                let line = CAShapeLayer()
-                let linePath = UIBezierPath()
-                linePath.move(to: CGPoint(x: path, y:Int(scrollVewForGraoh.frame.height) - 21))
-                if Int(scrollVewForGraoh.frame.height) - temp*graphMultiplier > Int(scrollVewForGraoh.frame.height) {
-                    yAxis = 20
-                }else {
-                    yAxis = Int(scrollVewForGraoh.frame.height) - temp*graphMultiplier
-                }
-                linePath.addLine(to: CGPoint(x: path, y:yAxis))
-                line.path = linePath.cgPath
-                line.strokeColor = UIColor(red:255/255, green: 217/255, blue: 48/255, alpha: 1).cgColor
-                line.lineWidth = 15
-                line.lineJoin = kCALineJoinRound
-                scrollVewForGraoh.layer.addSublayer(line)
-                
-                let codedLabel:UILabel = UILabel()
-                codedLabel.frame = CGRect(x: path - 10, y: Int(scrollVewForGraoh.frame.height)-21 , width: 21, height: 21)
-                codedLabel.textAlignment = .center
-                codedLabel.text = "\(temp)"
-                codedLabel.numberOfLines=1
-                codedLabel.textColor=UIColor.black
-                codedLabel.font=UIFont.systemFont(ofSize: 10)
-                scrollVewForGraoh.addSubview(codedLabel)
-                
-                path += 23
-            }
+            linePath.addLine(to: CGPoint(x: points.x[i], y:points.y[i]))
+            line.path = linePath.cgPath
+            line.lineWidth = 21
+            line.lineJoin = kCALineJoinRound
+            scrollVewForGraoh.layer.addSublayer(line)
+            
+            codedLabel.textAlignment = .center
+            codedLabel.text = "\(points.temp[i])"
+            codedLabel.numberOfLines=0
+            codedLabel.textColor=UIColor.black
+            codedLabel.font=UIFont.systemFont(ofSize: 10)
+            scrollVewForGraoh.addSubview(codedLabel)
+            
         }
-        scrollVewForGraoh.contentSize = CGSize(width: path, height: 128)
+        scrollVewForGraoh.contentSize = CGSize(width: points.x[points.x.endIndex-1] + 15, height: 128)
     }
 }

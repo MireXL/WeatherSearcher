@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 class LocationService : NSObject,CLLocationManagerDelegate {
-
+    
     var locationManager: CLLocationManager?
     var currentLocation = String()
     var locationManagerCallback : ((String?) -> ())?
@@ -25,9 +25,9 @@ class LocationService : NSObject,CLLocationManagerDelegate {
         
     }
     
-    @objc func startUpdatingLocation(completion : @escaping (String?) -> ()) {
+    func startUpdatingLocation(completion : @escaping (String?) -> ()) {
         print("Starting Location Updates")
-       
+        
         guard let locationManager = self.locationManager else {return}
         if CLLocationManager.authorizationStatus() == .notDetermined {
             locationManager.requestWhenInUseAuthorization()
@@ -37,11 +37,6 @@ class LocationService : NSObject,CLLocationManagerDelegate {
         self.locationManager?.startUpdatingLocation()
         locationManagerCallback = completion
     }
-
-    @objc func stopUpdatingLocation() {
-        print("Stop Location Updates")
-        self.locationManager?.stopUpdatingLocation()
-    }
     
     @objc func getLocation (completion : @escaping (String) -> ()) {
         LocationService.sharedInstance.startUpdatingLocation(completion: {(currentLocation) in
@@ -49,10 +44,9 @@ class LocationService : NSObject,CLLocationManagerDelegate {
                 //print("lol\(location)")
                 completion(location)
             }
-
         })
     }
-   
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         currentLocation = "lat=\(locValue.latitude)&lon=\(locValue.longitude)"

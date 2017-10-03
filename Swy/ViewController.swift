@@ -27,7 +27,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     
     }
- 
     @IBAction func writeText(_ sender: Any) {
         
         guard let whatTyped = typeTextField.text else {return}

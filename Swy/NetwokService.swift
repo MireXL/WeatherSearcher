@@ -23,7 +23,7 @@ class NetwokService {
                 
             }
             .responseJSON { response in
-                
+               
                 if let dict = response.result.value as? [String : Any] {
                 
                     guard let weatherDictioanry = dict["weather"] as? [[String: Any]] else { return }
@@ -67,10 +67,9 @@ class NetwokService {
                             //print(weatherElement)
                             forecastArray.append(forecastData)
                         }
-                        
                     }
                     
-                /*   var cityArr = [String:Any]()
+                 /*  var cityArr = [String:Any]()
                     cityArr  = ["id":1907296,"name":"Tawarano","coord":["lat":35.0164,"lon":139.0077],"country":"none"]
                     
                      var lastElement2 = [String:Any]()
