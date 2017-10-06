@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class NetwokService {
-    func getWeatherFrom(searchTypeForUrl :String,completion:@escaping (Weather) -> ()){
+    func getWeatherFrom(searchTypeForUrl :String,completion:@escaping (Any) -> ()){
         
         Alamofire.request("http://api.openweathermap.org/data/2.5/weather?"
             + searchTypeForUrl + "&appid=88827621993174d747441071f4422821", encoding: JSONEncoding.default)
@@ -25,22 +25,35 @@ class NetwokService {
             .responseJSON { response in
                
                 if let dict = response.result.value as? [String : Any] {
-                
+                    print(dict)
+                    if dict["cod"] as? String == "404"{
+                        
+                        completion(404)
+                    }
                     guard let weatherDictioanry = dict["weather"] as? [[String: Any]] else { return }
+                    
                     
                     if let nowWeatherData = Weather.init(rawResponseForNow: dict, weatherArray: weatherDictioanry){
  
+                        print("d - \(nowWeatherData)")
                         completion(nowWeatherData)
                         
                     }else{
+                        
                         print("Eror")
+                        completion("NetworkError")
                     }
                     
+                }
+                else{
+                    
+                    print("Eror")
+                    completion("NetworkError")
                 }
         }
     }
     
-    func getWeatherForFiveDays(searchTypeForUrl :String,completion:@escaping ([Weather]) -> ()) {
+    func getWeatherForFiveDays(searchTypeForUrl :String,completion:@escaping (Any) -> ()) {
         
         Alamofire.request("http://api.openweathermap.org/data/2.5/forecast?"+searchTypeForUrl+"&appid=88827621993174d747441071f4422821", encoding: JSONEncoding.default)
             .downloadProgress(queue: DispatchQueue.global(qos: .utility)) { progress in
@@ -54,7 +67,10 @@ class NetwokService {
             .responseJSON { response in
                 
                 if let forecastDictionary = response.result.value as? [String : Any] {
-                    
+                    if forecastDictionary["cod"] as? String == "404"{
+                        
+                        completion(404)
+                    }
                     guard let weatherDictionary = forecastDictionary["list"] as? [[String: Any]] else { return }
                     
                     
@@ -96,6 +112,7 @@ class NetwokService {
                 }else{
                     
                     print("Eror")
+                    completion("NetworkError")
                 }
         }
         

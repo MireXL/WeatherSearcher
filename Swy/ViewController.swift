@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var typeTextField: UITextField!
     
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var nameButton: UIButton!
     @IBOutlet weak var fiveDayWeatherByNameButton: UIButton!
     
@@ -23,9 +24,28 @@ class ViewController: UIViewController {
     @objc var nowWeather = true
     
     override func viewDidLoad() {
-      
+       
         super.viewDidLoad()
-    
+        UIView.animate(withDuration: 0.5, delay: 0,
+                       options: .curveEaseOut, animations: {
+                        self.nameButton.center.x -= self.view.bounds.width
+        })
+        UIView.animate(withDuration: 0.5, delay: 0.2,
+                       options: .curveEaseOut, animations: {
+                        self.geoButton.center.x -= self.view.bounds.width
+
+        })
+        UIView.animate(withDuration: 0.5, delay: 0.3,
+                       options: .curveEaseOut, animations: {
+                        self.fiveDayWeatherByGeoButton.center.x += self.view.bounds.width
+                        
+        })
+        UIView.animate(withDuration: 0.5, delay: 0.4,
+                       options: .curveEaseOut, animations: {
+                        self.fiveDayWeatherByNameButton.center.x += self.view.bounds.width
+                        
+        })
+        
     }
     @IBAction func writeText(_ sender: Any) {
         
@@ -39,19 +59,37 @@ class ViewController: UIViewController {
         if nowWeather == true{
             
             nameSearcher.getWeatherFrom(searchTypeForUrl: "q=\(typedTown)", completion: { nowWeatherData in
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
-                secondViewController.WeatherForNow =  nowWeatherData
-                self.present(secondViewController, animated: true, completion: nil)
-                
+                if nowWeatherData as? Int == 404 {
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "City not found"
+                } else if nowWeatherData as? String == "NetworkError"{
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "Network Error"
+                }else {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
+                    secondViewController.WeatherForNow =  nowWeatherData as? Weather
+                    secondViewController.modalTransitionStyle = .flipHorizontal
+                    self.present(secondViewController, animated: true, completion: nil)
+                }
             })
         }else{
             
             nameSearcher.getWeatherForFiveDays(searchTypeForUrl: "q=\(typedTown)", completion: { fiveForecast in
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
-                secondViewController.forecast = fiveForecast
-                self.present(secondViewController, animated: true, completion: nil)
+                if fiveForecast as? Int == 404 {
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "City not found"
+                }else if fiveForecast as? String == "NetworkError"{
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "Network Error"
+                }else {
+                    guard let fiveData = fiveForecast as? [Weather] else {return}
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
+                    secondViewController.forecast = fiveData
+                    secondViewController.modalTransitionStyle = .flipHorizontal
+                    self.present(secondViewController, animated: true, completion: nil)
+                }
             })
             
         }
@@ -65,16 +103,23 @@ class ViewController: UIViewController {
             
             let geoSearcher = NetwokService()
             geoSearcher.getWeatherFrom(searchTypeForUrl: location, completion: { nowWeatherData in
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
-                secondViewController.WeatherForNow =  nowWeatherData
-                self.present(secondViewController, animated: true, completion: nil)
-                
-                
+                if nowWeatherData as? Int == 404 {
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "City not found"
+                }else if nowWeatherData as? String == "NetworkError"{
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "Network Error"
+                } else {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
+                    secondViewController.WeatherForNow =  nowWeatherData as? Weather
+                    secondViewController.modalTransitionStyle = .flipHorizontal
+                    self.present(secondViewController, animated: true, completion: nil)
+                    
+                }
             })
         })
-
+        
     }
     
     @IBAction func nowWeatherByName(_ sender: Any) {
@@ -91,11 +136,20 @@ class ViewController: UIViewController {
             
             let fiveDaySearcher = NetwokService()
             fiveDaySearcher.getWeatherForFiveDays(searchTypeForUrl: location, completion: { fiveForecast in
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
-                secondViewController.forecast = fiveForecast
-                self.present(secondViewController, animated: true, completion: nil)
+                if fiveForecast as? Int == 404 {
+                    self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "City not found"
+                } else if fiveForecast as? String == "NetworkError"{
+                        self.errorLabel.isHidden = false
+                    self.errorLabel.text  = "Network Error"
+                    } else{
+                        guard let fiveData = fiveForecast as? [Weather] else {return}
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
+                        secondViewController.forecast = fiveData
+                        secondViewController.modalTransitionStyle = .flipHorizontal
+                        self.present(secondViewController, animated: true, completion: nil)
+                }
             })
             
         })
