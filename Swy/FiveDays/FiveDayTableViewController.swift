@@ -17,7 +17,7 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var fiveDaysTableView: UITableView!
     
     override func viewDidLoad() {
-        
+  
         self.fiveDaysTableView.rowHeight = UITableViewAutomaticDimension
         self.fiveDaysTableView.estimatedRowHeight = 400
         drawGraph()
@@ -44,10 +44,20 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         return(cell)
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+   /*  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //print(valueArrayForCell[indexPath.row])
+        print(forecast[indexPath.row])
+        
+    }*/
+ 
+    @IBAction func SaveData(_ sender: Any) {
+        let cDataManager = CoreDataManager()
+        cDataManager.saveData(weatherToSave: forecast)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let ForSavedDataTableViewController = storyboard.instantiateViewController(withIdentifier: "SavedTable") as! SavedTableViewController
+        ForSavedDataTableViewController.modalTransitionStyle = .coverVertical
+        self.present(ForSavedDataTableViewController, animated: true, completion: nil)
     }
-    
     func drawGraph(){
         let graphDraw = GraphDraw()
         let points = graphDraw.drawGraphFunc(forecast: forecast, viewHeight: Int(scrollVewForGraoh.frame.height))

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13241" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DataForecast" representedClassName="DataForecast" syncable="YES" codeGenerationType="class">
+        <attribute name="dateAndHour" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="descriptionData" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DescriptionOfData" inverseName="dataForecast" inverseEntity="DescriptionOfData" syncable="YES"/>
+    </entity>
+    <entity name="DescriptionOfData" representedClassName="DescriptionOfData" syncable="YES" codeGenerationType="class">
+        <attribute name="coordinatesDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pressureDescription" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="skyDescriptionL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="temperatureDescription" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="temperatureMax" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="temperatureMin" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="townDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="windDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="dataForecast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DataForecast" inverseName="descriptionData" inverseEntity="DataForecast" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="DataForecast" positionX="-54" positionY="-9" width="128" height="73"/>
+        <element name="DescriptionOfData" positionX="171" positionY="9" width="128" height="193"/>
+    </elements>
+</model>

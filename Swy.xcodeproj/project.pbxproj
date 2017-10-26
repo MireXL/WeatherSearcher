@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0104B3D01F694D0000FD120F /* FiveDayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104B3CF1F694D0000FD120F /* FiveDayTableViewController.swift */; };
-		0104B3D81F6AD32700FD120F /* FiveDaysTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0104B3D71F6AD32700FD120F /* FiveDaysTableViewCell.swift */; };
 		010696B01F615277002E7A36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696AF1F615277002E7A36 /* AppDelegate.swift */; };
 		010696B21F615277002E7A36 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696B11F615277002E7A36 /* ViewController.swift */; };
 		010696B51F615277002E7A36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 010696B31F615277002E7A36 /* Main.storyboard */; };
@@ -17,12 +15,19 @@
 		010696C51F615277002E7A36 /* SwyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696C41F615277002E7A36 /* SwyTests.swift */; };
 		010696D01F615277002E7A36 /* SwyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696CF1F615277002E7A36 /* SwyUITests.swift */; };
 		010696DE1F615607002E7A36 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 010696DD1F615607002E7A36 /* Alamofire.framework */; };
-		010696E61F66A942002E7A36 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696E51F66A942002E7A36 /* WeatherViewController.swift */; };
 		010696EA1F66D425002E7A36 /* NetwokService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696E91F66D425002E7A36 /* NetwokService.swift */; };
 		010696F31F6816C7002E7A36 /* SkyStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696F21F6816C7002E7A36 /* SkyStructure.swift */; };
 		010696F91F6817BA002E7A36 /* CoordinateStructre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010696F81F6817BA002E7A36 /* CoordinateStructre.swift */; };
-		014B62181F825B57003603BC /* GraphDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B62171F825B57003603BC /* GraphDraw.swift */; };
 		014B621B1F836DF2003603BC /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014B621A1F836DF2003603BC /* Colors.swift */; };
+		0189379F1FA07E19001257FA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0189379E1FA07E02001257FA /* CoreData.framework */; };
+		018937A21FA07E96001257FA /* SwyDM.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 018937A01FA07E96001257FA /* SwyDM.xcdatamodeld */; };
+		018937AE1FA08E19001257FA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937AD1FA08E19001257FA /* WeatherViewController.swift */; };
+		018937CC1FA08F15001257FA /* FiveDayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C71FA08F14001257FA /* FiveDayTableViewController.swift */; };
+		018937CD1FA08F15001257FA /* FiveDaysSavedDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */; };
+		018937CE1FA08F15001257FA /* FiveDaysTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */; };
+		018937D01FA08F15001257FA /* GraphDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937CB1FA08F15001257FA /* GraphDraw.swift */; };
+		018937D61FA090D9001257FA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937D51FA090D9001257FA /* CoreDataManager.swift */; };
+		018937DE1FA0C4D1001257FA /* SavedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */; };
 		01A302791F72762800EA2954 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A302781F72762800EA2954 /* SDWebImage.framework */; };
 		01A3027B1F72A8A300EA2954 /* MeasurementStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3027A1F72A8A300EA2954 /* MeasurementStructure.swift */; };
 		01A3027D1F72A9D000EA2954 /* WeatherStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3027C1F72A9D000EA2954 /* WeatherStructure.swift */; };
@@ -48,8 +53,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0104B3CF1F694D0000FD120F /* FiveDayTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiveDayTableViewController.swift; sourceTree = "<group>"; };
-		0104B3D71F6AD32700FD120F /* FiveDaysTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiveDaysTableViewCell.swift; sourceTree = "<group>"; };
 		010696AC1F615277002E7A36 /* Swy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		010696AF1F615277002E7A36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		010696B11F615277002E7A36 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,12 +67,19 @@
 		010696CF1F615277002E7A36 /* SwyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwyUITests.swift; sourceTree = "<group>"; };
 		010696D11F615277002E7A36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		010696DD1F615607002E7A36 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/Swy-gvxercyxmshrbwcowkejebhfxowy/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
-		010696E51F66A942002E7A36 /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		010696E91F66D425002E7A36 /* NetwokService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetwokService.swift; sourceTree = "<group>"; };
 		010696F21F6816C7002E7A36 /* SkyStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyStructure.swift; sourceTree = "<group>"; };
 		010696F81F6817BA002E7A36 /* CoordinateStructre.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateStructre.swift; sourceTree = "<group>"; };
-		014B62171F825B57003603BC /* GraphDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDraw.swift; sourceTree = "<group>"; };
 		014B621A1F836DF2003603BC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		0189379E1FA07E02001257FA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		018937A11FA07E96001257FA /* SwyDM.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwyDM.xcdatamodel; sourceTree = "<group>"; };
+		018937AD1FA08E19001257FA /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		018937C71FA08F14001257FA /* FiveDayTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayTableViewController.swift; sourceTree = "<group>"; };
+		018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysSavedDataVC.swift; sourceTree = "<group>"; };
+		018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysTableViewCell.swift; sourceTree = "<group>"; };
+		018937CB1FA08F15001257FA /* GraphDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDraw.swift; sourceTree = "<group>"; };
+		018937D51FA090D9001257FA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTableViewController.swift; sourceTree = "<group>"; };
 		01A302781F72762800EA2954 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "../../../Library/Developer/Xcode/DerivedData/Swy-gvxercyxmshrbwcowkejebhfxowy/Build/Products/Debug-iphonesimulator/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		01A3027A1F72A8A300EA2954 /* MeasurementStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementStructure.swift; sourceTree = "<group>"; };
 		01A3027C1F72A9D000EA2954 /* WeatherStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherStructure.swift; sourceTree = "<group>"; };
@@ -84,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0189379F1FA07E19001257FA /* CoreData.framework in Frameworks */,
 				01A302791F72762800EA2954 /* SDWebImage.framework in Frameworks */,
 				010696DE1F615607002E7A36 /* Alamofire.framework in Frameworks */,
 				9CDF67591399E6CC6DB1D2D5 /* Pods_Swy.framework in Frameworks */,
@@ -132,20 +143,19 @@
 		010696AE1F615277002E7A36 /* Swy */ = {
 			isa = PBXGroup;
 			children = (
+				018937D21FA08F2F001257FA /* FiveDays */,
 				010696F11F68168C002E7A36 /* Stuctures */,
 				010696AF1F615277002E7A36 /* AppDelegate.swift */,
 				010696B11F615277002E7A36 /* ViewController.swift */,
 				01A3027E1F750BF200EA2954 /* LocationService.swift */,
 				010696E91F66D425002E7A36 /* NetwokService.swift */,
 				014B621A1F836DF2003603BC /* Colors.swift */,
-				010696E51F66A942002E7A36 /* WeatherViewController.swift */,
-				0104B3CF1F694D0000FD120F /* FiveDayTableViewController.swift */,
-				014B62171F825B57003603BC /* GraphDraw.swift */,
-				0104B3D71F6AD32700FD120F /* FiveDaysTableViewCell.swift */,
+				018937AD1FA08E19001257FA /* WeatherViewController.swift */,
 				010696B31F615277002E7A36 /* Main.storyboard */,
 				010696B61F615277002E7A36 /* Assets.xcassets */,
 				010696B81F615277002E7A36 /* LaunchScreen.storyboard */,
 				010696BB1F615277002E7A36 /* Info.plist */,
+				018937A01FA07E96001257FA /* SwyDM.xcdatamodeld */,
 			);
 			path = Swy;
 			sourceTree = "<group>";
@@ -179,9 +189,23 @@
 			path = Stuctures;
 			sourceTree = "<group>";
 		};
+		018937D21FA08F2F001257FA /* FiveDays */ = {
+			isa = PBXGroup;
+			children = (
+				018937C71FA08F14001257FA /* FiveDayTableViewController.swift */,
+				018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */,
+				018937CB1FA08F15001257FA /* GraphDraw.swift */,
+				018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */,
+				018937D51FA090D9001257FA /* CoreDataManager.swift */,
+				018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */,
+			);
+			path = FiveDays;
+			sourceTree = "<group>";
+		};
 		4132D100712CF2B5E09037B6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0189379E1FA07E02001257FA /* CoreData.framework */,
 				01A302781F72762800EA2954 /* SDWebImage.framework */,
 				010696DD1F615607002E7A36 /* Alamofire.framework */,
 				6C93427C1514C9BB19518E56 /* Pods_Swy.framework */,
@@ -395,19 +419,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0104B3D01F694D0000FD120F /* FiveDayTableViewController.swift in Sources */,
-				0104B3D81F6AD32700FD120F /* FiveDaysTableViewCell.swift in Sources */,
+				018937CC1FA08F15001257FA /* FiveDayTableViewController.swift in Sources */,
 				010696B21F615277002E7A36 /* ViewController.swift in Sources */,
 				010696F31F6816C7002E7A36 /* SkyStructure.swift in Sources */,
-				010696E61F66A942002E7A36 /* WeatherViewController.swift in Sources */,
+				018937A21FA07E96001257FA /* SwyDM.xcdatamodeld in Sources */,
 				01A3027D1F72A9D000EA2954 /* WeatherStructure.swift in Sources */,
-				014B62181F825B57003603BC /* GraphDraw.swift in Sources */,
+				018937D61FA090D9001257FA /* CoreDataManager.swift in Sources */,
 				010696F91F6817BA002E7A36 /* CoordinateStructre.swift in Sources */,
 				014B621B1F836DF2003603BC /* Colors.swift in Sources */,
+				018937DE1FA0C4D1001257FA /* SavedTableViewController.swift in Sources */,
 				01A3027B1F72A8A300EA2954 /* MeasurementStructure.swift in Sources */,
+				018937CE1FA08F15001257FA /* FiveDaysTableViewCell.swift in Sources */,
 				010696B01F615277002E7A36 /* AppDelegate.swift in Sources */,
+				018937D01FA08F15001257FA /* GraphDraw.swift in Sources */,
 				01A3027F1F750BF200EA2954 /* LocationService.swift in Sources */,
+				018937CD1FA08F15001257FA /* FiveDaysSavedDataVC.swift in Sources */,
 				010696EA1F66D425002E7A36 /* NetwokService.swift in Sources */,
+				018937AE1FA08E19001257FA /* WeatherViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +719,19 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		018937A01FA07E96001257FA /* SwyDM.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				018937A11FA07E96001257FA /* SwyDM.xcdatamodel */,
+			);
+			currentVersion = 018937A11FA07E96001257FA /* SwyDM.xcdatamodel */;
+			path = SwyDM.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 010696A41F615277002E7A36 /* Project object */;
 }

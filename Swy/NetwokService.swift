@@ -35,7 +35,7 @@ class NetwokService {
                     
                     if let nowWeatherData = Weather.init(rawResponseForNow: dict, weatherArray: weatherDictioanry){
  
-                        print("d - \(nowWeatherData)")
+                        //print("d - \(nowWeatherData)")
                         completion(nowWeatherData)
                         
                     }else{

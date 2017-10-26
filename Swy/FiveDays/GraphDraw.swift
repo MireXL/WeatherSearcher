@@ -18,8 +18,14 @@ class GraphDraw {
         for temp in forecast {
             temperatureArr.append(Int(temp.measurement.temp))
         }
-        guard let maxTemp = temperatureArr.max(),
-            let minTemp = temperatureArr.min() else {return ([],[],[])}
+        guard var maxTemp = temperatureArr.max(),
+            var minTemp = temperatureArr.min() else {return ([],[],[])}
+      /*  if maxTemp == 0 {
+            maxTemp = 1
+        }
+        if minTemp == 0 {
+            minTemp = -1
+        }*/
         let multiplierForMax = Int(viewHeight/maxTemp)
         let multiplierForMin = Int(viewHeight/minTemp)
         var graphMultiplier = Int()
