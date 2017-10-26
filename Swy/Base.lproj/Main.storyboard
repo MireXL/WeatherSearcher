@@ -772,20 +772,36 @@
                                     <outlet property="delegate" destination="uPQ-Yx-yiE" id="k8r-Gi-fBB"/>
                                 </connections>
                             </tableView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xtf-uj-gWZ">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtf-uj-gWZ">
                                 <rect key="frame" x="0.0" y="68" width="375" height="128"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1PR-UB-jKY" customClass="FSLineChart">
+                                        <rect key="frame" x="0.0" y="0.0" width="500" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="XJF-AB-wUA"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZj-6p-ufv">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Uol-NW-fiq">
                                 <rect key="frame" x="319" y="30" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="SaveData:" destination="uPQ-Yx-yiE" eventType="touchUpInside" id="bXD-sY-EXO"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="0oN-gT-AGB">
+                                        <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZj-6p-ufv">
+                                                <rect key="frame" x="0.0" y="0.0" width="34" height="30"/>
+                                                <state key="normal" title="Save"/>
+                                                <connections>
+                                                    <action selector="SaveData:" destination="uPQ-Yx-yiE" eventType="touchUpInside" id="bXD-sY-EXO"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -794,6 +810,8 @@
                             <constraint firstItem="n1f-kq-ArW" firstAttribute="top" secondItem="xtf-uj-gWZ" secondAttribute="bottom" constant="8" id="EGH-Ta-Rjc"/>
                             <constraint firstAttribute="trailing" secondItem="xtf-uj-gWZ" secondAttribute="trailing" id="JIy-5f-hJj"/>
                             <constraint firstItem="n1f-kq-ArW" firstAttribute="leading" secondItem="uRo-cG-bhj" secondAttribute="leading" id="bUP-sR-1bf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Uol-NW-fiq" secondAttribute="trailing" constant="6" id="t5m-iA-Gpe"/>
+                            <constraint firstItem="Uol-NW-fiq" firstAttribute="top" secondItem="Rjo-DK-Umy" secondAttribute="bottom" constant="10" id="w8a-fO-k9H"/>
                             <constraint firstAttribute="trailing" secondItem="n1f-kq-ArW" secondAttribute="trailing" id="wAP-qY-nsc"/>
                             <constraint firstItem="xtf-uj-gWZ" firstAttribute="leading" secondItem="uRo-cG-bhj" secondAttribute="leading" id="yiS-bu-Hjg"/>
                             <constraint firstItem="s03-CR-bKS" firstAttribute="top" secondItem="n1f-kq-ArW" secondAttribute="bottom" id="zjs-TS-JsC"/>
@@ -804,6 +822,7 @@
                     </view>
                     <connections>
                         <outlet property="fiveDaysTableView" destination="n1f-kq-ArW" id="zTa-Zl-yNW"/>
+                        <outlet property="lineChartVeiw" destination="1PR-UB-jKY" id="f6j-vr-4oo"/>
                         <outlet property="scrollVewForGraoh" destination="xtf-uj-gWZ" id="Fkz-rc-oQD"/>
                     </connections>
                 </viewController>

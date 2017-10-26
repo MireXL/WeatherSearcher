@@ -43,8 +43,7 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let fiveDaysSavedDate = storyboard.instantiateViewController(withIdentifier: "FiveDaysSavedVC") as! FiveDaysSavedDataVC
         fiveDaysSavedDate.DateForFetch = date
-        self.present(fiveDaysSavedDate, animated: true, completion: nil)
-        
+        self.present(fiveDaysSavedDate, animated: true, completion: nil)  
     }
 
      func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

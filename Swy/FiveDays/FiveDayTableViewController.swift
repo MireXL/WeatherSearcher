@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import FSLineChart
 
 class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var forecast = [Weather]()
     
+    @IBOutlet weak var lineChartVeiw: FSLineChart!
     @IBOutlet weak var scrollVewForGraoh: UIScrollView!
     
     // @IBOutlet weak var graphView: UIView!
@@ -51,6 +53,7 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
     }*/
  
     @IBAction func SaveData(_ sender: Any) {
+        
         let cDataManager = CoreDataManager()
         cDataManager.saveData(weatherToSave: forecast)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -59,49 +62,17 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         self.present(ForSavedDataTableViewController, animated: true, completion: nil)
     }
     func drawGraph(){
-        let graphDraw = GraphDraw()
-        let points = graphDraw.drawGraphFunc(forecast: forecast, viewHeight: Int(scrollVewForGraoh.frame.height))
-        guard let min = points.temp.min() else {return}
-
-        for i in 0..<points.x.count{
-            let codedLabel:UILabel = UILabel()
-            codedLabel.frame.size = CGSize(width: 21, height: 21)
-            codedLabel.center.x = CGFloat(points.x[i])
-            let line = CAShapeLayer()
-            let linePath = UIBezierPath()
-            if min < 0 {
-                linePath.move(to: CGPoint(x: points.x[i], y:Int(scrollVewForGraoh.frame.height/2)))
-                if points.temp[i] < 0 {
-                    
-                    line.strokeColor = UIColor.lightBlue.cgColor
-                    codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height/2 - codedLabel.frame.width/2)
-                } else {
-                    
-                    line.strokeColor = UIColor.sunnyYellow.cgColor
-                    codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height/2 + codedLabel.frame.width/2)
-                }      
-            }else{
-                
-                linePath.move(to: CGPoint(x: points.x[i], y:Int(scrollVewForGraoh.frame.height) - 21))
-                line.strokeColor = UIColor.sunnyYellow.cgColor
-                codedLabel.center.y = CGFloat(scrollVewForGraoh.frame.height - codedLabel.frame.width/2)
-                
-            }
-            
-            linePath.addLine(to: CGPoint(x: points.x[i], y:points.y[i]))
-            line.path = linePath.cgPath
-            line.lineWidth = 21
-            line.lineJoin = kCALineJoinRound
-            scrollVewForGraoh.layer.addSublayer(line)
-            
-            codedLabel.textAlignment = .center
-            codedLabel.text = "\(points.temp[i])"
-            codedLabel.numberOfLines=0
-            codedLabel.textColor=UIColor.black
-            codedLabel.font=UIFont.systemFont(ofSize: 10)
-            scrollVewForGraoh.addSubview(codedLabel)
-            
+        var temperatureArr = [Double]()
+        for temp in forecast {
+            temperatureArr.append(temp.measurement.temp)
         }
-        scrollVewForGraoh.contentSize = CGSize(width: points.x[points.x.endIndex-1] + 15, height: 128)
+     
+        lineChartVeiw.verticalGridStep = 7
+        lineChartVeiw.horizontalGridStep = 9
+       // lineChartVeiw.labelForIndex = { "\($0)" }
+        lineChartVeiw.labelForValue = { "\(Int($0))" }
+        lineChartVeiw.setChartData(temperatureArr)
+        //scrollVewForGraoh.addSubview(lineChartVeiw)
+        scrollVewForGraoh.contentSize = CGSize(width: lineChartVeiw.frame.width, height: scrollVewForGraoh.frame.height)
     }
 }

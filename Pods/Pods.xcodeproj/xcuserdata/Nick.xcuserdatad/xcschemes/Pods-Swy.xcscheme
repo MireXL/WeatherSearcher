@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D8F07E8BBF264EA4D7418B81EE90B43E"
+               BlueprintIdentifier = "D0017DAF22FF3D068982013561346066"
                BuildableName = "Pods_Swy.framework"
                BlueprintName = "Pods-Swy"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D8F07E8BBF264EA4D7418B81EE90B43E"
+            BlueprintIdentifier = "D0017DAF22FF3D068982013561346066"
             BuildableName = "Pods_Swy.framework"
             BlueprintName = "Pods-Swy"
             ReferencedContainer = "container:Pods.xcodeproj">

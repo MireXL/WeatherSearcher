@@ -5,4 +5,5 @@ use_frameworks!
 target ‘Swy’ do
     pod 'Alamofire', '~> 4.5'
     pod 'SDWebImage', '~> 4.0'
+    pod "FSLineChart"
 end

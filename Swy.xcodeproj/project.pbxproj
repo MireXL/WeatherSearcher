@@ -25,9 +25,9 @@
 		018937CC1FA08F15001257FA /* FiveDayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C71FA08F14001257FA /* FiveDayTableViewController.swift */; };
 		018937CD1FA08F15001257FA /* FiveDaysSavedDataVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */; };
 		018937CE1FA08F15001257FA /* FiveDaysTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */; };
-		018937D01FA08F15001257FA /* GraphDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937CB1FA08F15001257FA /* GraphDraw.swift */; };
 		018937D61FA090D9001257FA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937D51FA090D9001257FA /* CoreDataManager.swift */; };
 		018937DE1FA0C4D1001257FA /* SavedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */; };
+		018937DF1FA1EF82001257FA /* FSLineChart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 018937E01FA1EF82001257FA /* FSLineChart.framework */; };
 		01A302791F72762800EA2954 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A302781F72762800EA2954 /* SDWebImage.framework */; };
 		01A3027B1F72A8A300EA2954 /* MeasurementStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3027A1F72A8A300EA2954 /* MeasurementStructure.swift */; };
 		01A3027D1F72A9D000EA2954 /* WeatherStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3027C1F72A9D000EA2954 /* WeatherStructure.swift */; };
@@ -77,9 +77,9 @@
 		018937C71FA08F14001257FA /* FiveDayTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDayTableViewController.swift; sourceTree = "<group>"; };
 		018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysSavedDataVC.swift; sourceTree = "<group>"; };
 		018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysTableViewCell.swift; sourceTree = "<group>"; };
-		018937CB1FA08F15001257FA /* GraphDraw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDraw.swift; sourceTree = "<group>"; };
 		018937D51FA090D9001257FA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedTableViewController.swift; sourceTree = "<group>"; };
+		018937E01FA1EF82001257FA /* FSLineChart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FSLineChart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		01A302781F72762800EA2954 /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = "../../../Library/Developer/Xcode/DerivedData/Swy-gvxercyxmshrbwcowkejebhfxowy/Build/Products/Debug-iphonesimulator/SDWebImage/SDWebImage.framework"; sourceTree = "<group>"; };
 		01A3027A1F72A8A300EA2954 /* MeasurementStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasurementStructure.swift; sourceTree = "<group>"; };
 		01A3027C1F72A9D000EA2954 /* WeatherStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherStructure.swift; sourceTree = "<group>"; };
@@ -94,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				018937DF1FA1EF82001257FA /* FSLineChart.framework in Frameworks */,
 				0189379F1FA07E19001257FA /* CoreData.framework in Frameworks */,
 				01A302791F72762800EA2954 /* SDWebImage.framework in Frameworks */,
 				010696DE1F615607002E7A36 /* Alamofire.framework in Frameworks */,
@@ -194,7 +195,6 @@
 			children = (
 				018937C71FA08F14001257FA /* FiveDayTableViewController.swift */,
 				018937C91FA08F15001257FA /* FiveDaysTableViewCell.swift */,
-				018937CB1FA08F15001257FA /* GraphDraw.swift */,
 				018937C81FA08F14001257FA /* FiveDaysSavedDataVC.swift */,
 				018937D51FA090D9001257FA /* CoreDataManager.swift */,
 				018937DD1FA0C4D1001257FA /* SavedTableViewController.swift */,
@@ -205,6 +205,7 @@
 		4132D100712CF2B5E09037B6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				018937E01FA1EF82001257FA /* FSLineChart.framework */,
 				0189379E1FA07E02001257FA /* CoreData.framework */,
 				01A302781F72762800EA2954 /* SDWebImage.framework */,
 				010696DD1F615607002E7A36 /* Alamofire.framework */,
@@ -367,11 +368,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Swy/Pods-Swy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/FSLineChart/FSLineChart.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSLineChart.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +434,6 @@
 				01A3027B1F72A8A300EA2954 /* MeasurementStructure.swift in Sources */,
 				018937CE1FA08F15001257FA /* FiveDaysTableViewCell.swift in Sources */,
 				010696B01F615277002E7A36 /* AppDelegate.swift in Sources */,
-				018937D01FA08F15001257FA /* GraphDraw.swift in Sources */,
 				01A3027F1F750BF200EA2954 /* LocationService.swift in Sources */,
 				018937CD1FA08F15001257FA /* FiveDaysSavedDataVC.swift in Sources */,
 				010696EA1F66D425002E7A36 /* NetwokService.swift in Sources */,
