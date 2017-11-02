@@ -34,7 +34,7 @@ struct Weather {
         let dateConverter = NSDate(timeIntervalSince1970: TimeInterval(dateDetails))
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.medium
-        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeZone = TimeZone.current
         let localDate = dateFormatter.string(from: dateConverter as Date)
         
@@ -64,7 +64,7 @@ struct Weather {
         let dateConverter = NSDate(timeIntervalSince1970: TimeInterval(dateDetails))
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = DateFormatter.Style.medium
-        dateFormatter.dateStyle = DateFormatter.Style.medium
+        dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeZone = TimeZone.current
         let localDate = dateFormatter.string(from: dateConverter as Date)
         

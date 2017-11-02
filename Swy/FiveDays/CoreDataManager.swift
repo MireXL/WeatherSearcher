@@ -14,7 +14,7 @@ class CoreDataManager{
     var descriptionDate = [DescriptionOfData]()
    
     func fetchDateHour() -> [DataForecast]{
-        print("fetch1")
+        //print("fetch1")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return forecast}
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DataForecast")
@@ -29,16 +29,13 @@ class CoreDataManager{
         return forecast
     }
     
-    func fetchDescription(date:String) -> DescriptionOfData{
-        print("fetch2")
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {return DescriptionOfData()}
+    func fetchDescription(date:String, town :String) -> DescriptionOfData? {
+        //print("fetch2")
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return nil}
         
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
+        let managedContext = appDelegate.persistentContainer.viewContext
         
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "DescriptionOfData")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DescriptionOfData")
         
         do {
             descriptionDate = try managedContext.fetch(fetchRequest) as! [DescriptionOfData]
@@ -46,46 +43,104 @@ class CoreDataManager{
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         //print(descriptionDate[0])
-        var descriptionArr = DescriptionOfData()
+        var description = DescriptionOfData()
         for i in descriptionDate{
-            if i.dateDescription == date{
-                
-                descriptionArr = i
+            if i.dateDescription == date && i.townDescription == town{
+
+                description = i
             }
         }
-        print("Desctr \(descriptionArr)")
-        return descriptionArr
+        //print("Desctr \(description)")
+        return description
     }
-    func saveData(weatherToSave : [Weather]){
-    
+ 
+    func updateDate(weatherToUpdate : [Weather],completion : @escaping () -> ()){
+        print("called")
+        let existingDataArr = fetchDateHour()
+        var newWeatherArr = weatherToUpdate
+        var updated = false
+        print("NewWeather - \(newWeatherArr[0].date)")
+        if existingDataArr.isEmpty == false{
+            print("exist")
+            for i in existingDataArr.reversed(){
+                guard let city =  i.cityForDate ,
+                    let dateAndTime = i.dateAndHour else {return}
+                if city == newWeatherArr[0].cityName && dateAndTime < newWeatherArr[0].date{
+                    
+                    print("found")
+                    let statement = deleteData(dataToDelete: i)
+                    if statement == true{
+                        print("was deleted\(i)")
+                        updated = true
+                    }
+                }
+            }
+            if updated == true {
+                for i in newWeatherArr.enumerated().reversed(){
+                    if newWeatherArr[0].date > newWeatherArr[i.offset].date{
+                        newWeatherArr.remove(at: i.offset)
+                    }
+                }//delete if  test data in network class not used */
+                saveData(dataToSave: newWeatherArr)
+                completion()
+            }
+        }
+    }
+    func checkData(weatherToCheck : [Weather])->[Weather]{
+        var weatherChekedArr = weatherToCheck
+         let existingDataArr = fetchDateHour() 
+        if existingDataArr.isEmpty == false{
+            for i in existingDataArr.enumerated(){
+                
+                for j in  weatherChekedArr.enumerated().reversed(){
+                    
+                    if i.element.cityForDate == weatherChekedArr[j.offset].cityName && i.element.dateAndHour == weatherChekedArr[j.offset].date{
+                        print("copy")
+                        weatherChekedArr.remove(at: j.offset)
+                    }
+                }
+            }
+        }
+
+        return weatherChekedArr
+    }
+    func saveData(dataToSave : [Weather]){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         let managedContext = appDelegate.persistentContainer.viewContext
+        print(dataToSave[0])
 
-        for i in weatherToSave{
-            let dataForecastDm = DataForecast(context: managedContext)
-            dataForecastDm.dateAndHour = i.date
-            let descriptionOfDataDm = DescriptionOfData(context: managedContext)
-            descriptionOfDataDm.dataForecast = dataForecastDm
-            descriptionOfDataDm.dateDescription = i.date
-            descriptionOfDataDm.coordinatesDescription = "\(i.geolocation.ln),\(i.geolocation.lt)"
-            descriptionOfDataDm.pressureDescription = i.measurement.pressure
-            descriptionOfDataDm.temperatureDescription = i.measurement.temp
-            descriptionOfDataDm.temperatureMax = i.measurement.tempMax
-            descriptionOfDataDm.temperatureMin = i.measurement.tempMin
-            descriptionOfDataDm.skyDescriptionL = i.sky.description
-        }
+        let  arrayToSave = checkData(weatherToCheck: dataToSave)
         
-        do {
-            try managedContext.save()
-            print("saved")
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        if arrayToSave.isEmpty == false{
+            for i in arrayToSave{
+                
+                let dataForecastDm = DataForecast(context: managedContext)
+                dataForecastDm.dateAndHour = i.date
+                dataForecastDm.cityForDate = i.cityName
+                let descriptionOfDataDm = DescriptionOfData(context: managedContext)
+                descriptionOfDataDm.dataForecast = dataForecastDm
+                descriptionOfDataDm.dateDescription = i.date
+                descriptionOfDataDm.coordinatesDescription = "\(i.geolocation.ln),\(i.geolocation.lt)"
+                descriptionOfDataDm.pressureDescription = i.measurement.pressure
+                descriptionOfDataDm.temperatureDescription = i.measurement.temp
+                descriptionOfDataDm.temperatureMax = i.measurement.tempMax
+                descriptionOfDataDm.temperatureMin = i.measurement.tempMin
+                descriptionOfDataDm.skyDescriptionL = i.sky.description
+                descriptionOfDataDm.windDescription = i.windSpeed
+                descriptionOfDataDm.townDescription = i.cityName
+                descriptionOfDataDm.countryDescription = i.counrty
+            }
+            do {
+                try managedContext.save()
+                print("saved")
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
         }
     }
     func deleteData(dataToDelete:DataForecast)->Bool{
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {return false }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return false }
         
         let managedContext =
             appDelegate.persistentContainer.viewContext

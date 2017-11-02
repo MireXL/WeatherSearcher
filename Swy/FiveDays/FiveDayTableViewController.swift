@@ -19,11 +19,10 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var fiveDaysTableView: UITableView!
     
     override func viewDidLoad() {
-  
+        
         self.fiveDaysTableView.rowHeight = UITableViewAutomaticDimension
         self.fiveDaysTableView.estimatedRowHeight = 400
         drawGraph()
-        
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
@@ -46,16 +45,17 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         return(cell)
     }
     
-   /*  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+  /*   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         //print(valueArrayForCell[indexPath.row])
-        print(forecast[indexPath.row])
-        
+       // print(forecast[indexPath.row])
+
     }*/
  
     @IBAction func SaveData(_ sender: Any) {
-        
+      
         let cDataManager = CoreDataManager()
-        cDataManager.saveData(weatherToSave: forecast)
+    
+        cDataManager.saveData(dataToSave: forecast)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let ForSavedDataTableViewController = storyboard.instantiateViewController(withIdentifier: "SavedTable") as! SavedTableViewController
         ForSavedDataTableViewController.modalTransitionStyle = .coverVertical
@@ -66,13 +66,13 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         for temp in forecast {
             temperatureArr.append(temp.measurement.temp)
         }
-     
-        lineChartVeiw.verticalGridStep = 7
+    
+        lineChartVeiw.displayDataPoint = true
+        lineChartVeiw.verticalGridStep = 5
         lineChartVeiw.horizontalGridStep = 9
        // lineChartVeiw.labelForIndex = { "\($0)" }
         lineChartVeiw.labelForValue = { "\(Int($0))" }
         lineChartVeiw.setChartData(temperatureArr)
-        //scrollVewForGraoh.addSubview(lineChartVeiw)
         scrollVewForGraoh.contentSize = CGSize(width: lineChartVeiw.frame.width, height: scrollVewForGraoh.frame.height)
     }
 }

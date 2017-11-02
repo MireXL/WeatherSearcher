@@ -9,10 +9,10 @@
 import UIKit
 
 class FiveDaysSavedDataVC: UIViewController {
-    var WeatherForDate = DescriptionOfData()
-    var DateForFetch = ""
-    @IBOutlet weak var imageForIcon: UIImageView!
-    
+    var weatherForDate = DescriptionOfData()
+    var dateForFetch = ""
+    var townForfetch = ""
+  
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var dateDescriptionLabel: UILabel!
     
@@ -35,9 +35,10 @@ class FiveDaysSavedDataVC: UIViewController {
     @IBOutlet weak var pressureDescriptionLabel: UILabel!
     override func viewDidLoad() {
         let cDataManger = CoreDataManager()
-        WeatherForDate = cDataManger.fetchDescription(date: DateForFetch)
+        guard let descriptionDate = cDataManger.fetchDescription(date: dateForFetch, town: townForfetch) else {return}
+        weatherForDate = descriptionDate
         sortingDataFunc()
-        print(DateForFetch)
+        //print(DateForFetch)
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -49,23 +50,33 @@ class FiveDaysSavedDataVC: UIViewController {
     }
     func sortingDataFunc(){
        
-        if WeatherForDate.temperatureDescription < 0 {
+        if weatherForDate.temperatureDescription < 0 {
             temperatureDescriptionLabel.textColor = UIColor.lightBlue
-        }else if WeatherForDate.temperatureDescription > 0 {
+        }else if weatherForDate.temperatureDescription > 0 {
             temperatureDescriptionLabel.textColor = UIColor.salatGreen
         }
+        let pattern = "\\b([0-9]|[012][0-9]|):([0-9])([0-9]):([0-9])([0-9])\\b"
+        let regex = try? NSRegularExpression(pattern: pattern, options:[])
+        guard let date = weatherForDate.dateDescription,
+            let match = regex?.firstMatch(in: date, options: [], range: NSRange(location: 0, length: date.count)),
+            let town = weatherForDate.townDescription,
+            let city = weatherForDate.countryDescription else {return}
+        var onlyHourText = ""
         
-        windDescriptionLabel.text = WeatherForDate.windDescription
-        dateDescriptionLabel.text = WeatherForDate.dateDescription
-        townDescriptionLabel.text = WeatherForDate.townDescription
-        skyDescriptionLabel.text = WeatherForDate.skyDescriptionL
-        temperatureDescriptionLabel.text = "\(String(format:"%.2f",WeatherForDate.temperatureDescription)),Min:\(String(format:"%.2f",WeatherForDate.temperatureMin)),Max:\(String(format:"%.2f",WeatherForDate.temperatureMax))"
-        pressureDescriptionLabel.text = "\(WeatherForDate.pressureDescription)"
-        coordinatesDescriptionLabel .text = WeatherForDate.coordinatesDescription
-        
-        
-        
+        for charr in date.enumerated(){
+            if match.range.contains(charr.offset){
+                
+                onlyHourText += "\(charr.element)"
+            }
+        }
+  
+        windDescriptionLabel.text = "\(weatherForDate.windDescription)"
+        dateDescriptionLabel.text =  onlyHourText
+        townDescriptionLabel.text = town + "," + city
+        skyDescriptionLabel.text = weatherForDate.skyDescriptionL
+        temperatureDescriptionLabel.text = "\(String(format:"%.2f",weatherForDate.temperatureDescription)),Min:\(String(format:"%.2f",weatherForDate.temperatureMin)),Max:\(String(format:"%.2f",weatherForDate.temperatureMax))"
+        pressureDescriptionLabel.text = "\(weatherForDate.pressureDescription)"
+        coordinatesDescriptionLabel .text = weatherForDate.coordinatesDescription
+  
     }
-
-
 }

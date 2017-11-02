@@ -86,34 +86,31 @@ class ViewController: UIViewController {
         
         guard let whatTyped = typeTextField.text else {return}
         
-        let typedTown = String(whatTyped.characters.filter {$0 != " "})
+        let typedTown = String(whatTyped.filter {$0 != " "})
         print("\(typedTown)")
         
         let nameSearcher = NetwokService()
-        
         if nowWeather == true{
             
-            nameSearcher.getWeatherFrom(searchTypeForUrl: "q=\(typedTown)", completion: { nowWeatherData in
+            nameSearcher.getWeatherFrom(params: ["q":"\(typedTown)"], completion: { nowWeatherData in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
         }else{
             
-            nameSearcher.getWeatherForFiveDays(searchTypeForUrl: "q=\(typedTown)", completion: { fiveForecast in
+            nameSearcher.getWeatherForFiveDays(params: ["q":"\(typedTown)"], completion: { fiveForecast in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showFiveDayForecast(fiveForecast: fiveForecast)
             })
-            
         }
     }
     
     @IBAction func nowWeatherByGeo(_ sender: Any) {
         activityIndicatorForApiRequest.startAnimating()
         
-        LocationService.sharedInstance.getLocation(completion: { location in
-            
+        LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
             let geoSearcher = NetwokService()
-            geoSearcher.getWeatherFrom(searchTypeForUrl: location, completion: { nowWeatherData in
+            geoSearcher.getWeatherFrom(params:["lat":lat,"lon":lon], completion: { nowWeatherData in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
@@ -130,10 +127,10 @@ class ViewController: UIViewController {
     
     @IBAction func showFiveDayWeatherByGeo(_ sender: Any) {
         activityIndicatorForApiRequest.startAnimating()
-        LocationService.sharedInstance.getLocation(completion: { location in
+        LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
             
             let fiveDaySearcher = NetwokService()
-            fiveDaySearcher.getWeatherForFiveDays(searchTypeForUrl: location, completion: { fiveForecast in
+            fiveDaySearcher.getWeatherForFiveDays(params: ["lat":lat,"lon":lon], completion: { fiveForecast in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showFiveDayForecast(fiveForecast: fiveForecast)
             })
