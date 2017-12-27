@@ -13,9 +13,9 @@ class NetwokService {
     
     func getWeatherFrom(params : [String:Any],completion:@escaping (Any) -> ()){
        let url = "http://api.openweathermap.org/data/2.5/weather?"
-        var params = params
-        params["appid"] = "88827621993174d747441071f4422821"
-        Alamofire.request(url,
+       var params = params
+       params["appid"] = "88827621993174d747441071f4422821"
+       Alamofire.request(url,
                          method: .get,
                          parameters: params)
             .validate { request, response, data in
@@ -86,9 +86,7 @@ class NetwokService {
                         }
                     }
                     // print("tset working")
-                    let testData = DataForTest()
-                    guard let dataForTest = testData.fillWithTestData() else {return}
-                    forecastArray.append(dataForTest)
+                
                     completion(forecastArray)
                 }else{
                     

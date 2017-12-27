@@ -8,16 +8,17 @@
 
 import Foundation
 class DataForTest{
-    func fillWithTestData()->Weather?{
+    
+    func fillWithTestData1()->Weather?{
         
-        var cityArr = [String:Any]()
-        cityArr  = ["id":1907296,"name":"Saint-Laurent-des-Bâtons","coord":["lat":35.0164,"lon":139.0077],"country":"none"]
+      let  cityArr  = ["id":1907296,"name":"Saint-Laurent-des-Bâtons","coord":["lat":35.0164,"lon":139.0077],"country":"none"] as [String : Any]
         //Saint-Laurent-des-Bâtons Tawaran
         var lastElement2 = [String:Any]()
         lastElement2 = ["dt":Double(1485789200),"main":["temp":262.15,"temp_min":283.76,"temp_max":283.761,"pressure":1017.24,"sea_level":1026.83,"grnd_level":1017.24,"humidity":100,"temp_kf":0],"weather":[["id":800,"main":"Clear","description":"clear sky","icon":"01n"]],"wind":["speed":7.27,"deg":15.0048]]
         if let pre = Weather.init(rawResponseForForecast: lastElement2, cityResponse: cityArr){
             return pre
         }
+        
         /*var lastElement3 = [String:Any]()
         lastElement3 = ["dt":Double(1485864000),"main":["temp":273.15,"temp_min":283.76,"temp_max":283.761,"pressure":1017.24,"sea_level":1026.83,"grnd_level":1017.24,"humidity":100,"temp_kf":0],"weather":[["id":800,"main":"Clear","description":"clear sky","icon":"01n"]],"wind":["speed":7.27,"deg":15.0048]]
         if let pre2 = Weather.init(rawResponseForForecast: lastElement3, cityResponse: cityArr){
@@ -33,4 +34,23 @@ class DataForTest{
         }*/
         return nil
     }
+    func fillWithTestData2()->Weather?{
+        let  cityArr  = ["id":1907296,"name":"Moscow","coord":["lat":35.0164,"lon":139.0077],"country":"none"] as [String : Any]
+        var lastElement3 = [String:Any]()
+        lastElement3 = ["dt":Double(1485864000),"main":["temp":273.15,"temp_min":283.76,"temp_max":283.761,"pressure":1017.24,"sea_level":1026.83,"grnd_level":1017.24,"humidity":100,"temp_kf":0],"weather":[["id":800,"main":"Clear","description":"clear sky","icon":"01n"]],"wind":["speed":7.27,"deg":15.0048]]
+        if let pre2 = Weather.init(rawResponseForForecast: lastElement3, cityResponse: cityArr){
+            return pre2
+        }
+        return nil
+    }
+    func fillWithTestData3()->Weather?{
+        let  cityArr  = ["id":1907296,"name":"London","coord":["lat":35.0164,"lon":139.0077],"country":"none"] as [String : Any]
+        var lastElement3 = [String:Any]()
+        lastElement3 = ["dt":Double(1485799200),"main":["temp":273.15,"temp_min":283.76,"temp_max":283.761,"pressure":1017.24,"sea_level":1026.83,"grnd_level":1017.24,"humidity":100,"temp_kf":0],"weather":[["id":800,"main":"Clear","description":"clear sky","icon":"01n"]],"wind":["speed":7.27,"deg":15.0048]]
+        if let pre3 = Weather.init(rawResponseForForecast: lastElement3, cityResponse: cityArr){
+            return pre3
+        }
+        return nil
+    }
+    
 }

@@ -12,6 +12,7 @@ import FSLineChart
 class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var forecast = [Weather]()
     
+
     @IBOutlet weak var lineChartVeiw: FSLineChart!
     @IBOutlet weak var scrollVewForGraoh: UIScrollView!
     
@@ -19,7 +20,7 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var fiveDaysTableView: UITableView!
     
     override func viewDidLoad() {
-        
+    
         self.fiveDaysTableView.rowHeight = UITableViewAutomaticDimension
         self.fiveDaysTableView.estimatedRowHeight = 400
         drawGraph()
@@ -62,11 +63,11 @@ class FiveDayTableViewController: UIViewController, UITableViewDelegate, UITable
         self.present(ForSavedDataTableViewController, animated: true, completion: nil)
     }
     func drawGraph(){
+        
         var temperatureArr = [Double]()
         for temp in forecast {
             temperatureArr.append(temp.measurement.temp)
         }
-    
         lineChartVeiw.displayDataPoint = true
         lineChartVeiw.verticalGridStep = 5
         lineChartVeiw.horizontalGridStep = 9

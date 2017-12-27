@@ -11,7 +11,7 @@ import UIKit
 class SavedTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
 
     var forecaster = [DataForecast]()
-    
+
     @IBOutlet weak var textFieldCityName: UITextField!
     @IBOutlet weak var deleteChoiceView: UIView!
     @IBOutlet weak var noSavedDataLabel: UILabel!
@@ -38,7 +38,6 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
         }))
         
         self.present(alert, animated: true, completion: nil)
-        
     }
     override func viewDidAppear(_ animated: Bool) {
  
@@ -49,11 +48,16 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
             networkService.getWeatherFrom(params: ["q":"London"], completion: {
                 nowWeatherData in
                 guard let weather = nowWeatherData as? Weather else {return}
-                print(weather.date)
-                print(weather.cityName)
-                if weather.date > self.forecaster[0].dateAndHour!{
-                    
-                    self.showAlert()
+              /*  print(weather.date)
+                print(weather.cityName)*/
+                
+                let dateWeather = weather.date.split(separator: ",")
+                let onlyDateWeather = dateWeather[0].split(separator: "/")
+                let dateExist = self.forecaster[0].dateAndHour!.split(separator: ",")
+                let onlyDateExist = dateExist[0].split(separator: "/")
+                
+                if (onlyDateExist[0] as NSString).integerValue < (onlyDateWeather[0] as NSString).integerValue || (onlyDateExist[1] as NSString).integerValue < (onlyDateWeather[1] as NSString).integerValue || (onlyDateExist[2] as NSString).integerValue < (onlyDateWeather[2] as NSString).integerValue || dateExist[1] < dateWeather[1]{       
+                     self.showAlert()
                 }
             })
         }
@@ -72,28 +76,25 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
         for i in forecaster{
             guard let city = i.cityForDate else {return}
             cityNameArr.insert(city)
-            
         }
         print(cityNameArr)
         let networkService = NetwokService()
         for i in cityNameArr{
             networkService.getWeatherForFiveDays(params: ["q":i], completion: { fiveForecast in
                 guard let forecast = fiveForecast as? [Weather] else{return}
-                //print(self.forecaster[3].dateAndHour)
+
                 let cDataManager = CoreDataManager()
-                cDataManager.updateDate(weatherToUpdate: forecast, completion: { 
+                cDataManager.updateData(weatherToUpdate: forecast, completion: {
                     
                     self.getData()
                     self.tableViewForDate.reloadData()
-                    
                 })
             })
         }
     }
    
     @IBAction func updateData(_ sender: Any) {
-    
-    needToBeUpdated()
+        needToBeUpdated()
     }
     @IBAction func hideDeleteVeiw(_ sender: Any) {
         deleteChoiceView.isHidden = true
@@ -102,9 +103,8 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBAction func DeleteAllData(_ sender: Any) {
         deleteChoiceView.isHidden = true
         for i in forecaster.enumerated().reversed() {
-            
             let cDataManager = CoreDataManager()
-            let deleted =  cDataManager.deleteData(dataToDelete: i.element)
+            let deleted = cDataManager.deleteData(dataToDelete: i.element)
             if deleted == true{
                 forecaster.remove(at: i.offset)
                 tableViewForDate.reloadData()
@@ -116,13 +116,11 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @IBAction func deleteByName(_ sender: Any) {
-       // print("sssd")
         guard let toDelete = textFieldCityName.text else {return}
         let cityName = toDelete.filter {$0 != " "}
         deleteChoiceView.isHidden = true
         for i in forecaster.enumerated().reversed() {
             if i.element.cityForDate == cityName{
-                
                 let cDataManager = CoreDataManager()
                 let deleted =  cDataManager.deleteData(dataToDelete: i.element)
                 if deleted == true{
@@ -159,7 +157,6 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
         let town  = forecaster[indexPath.row].value(forKeyPath: "cityForDate") as? String
         else {return}
      
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let fiveDaysSavedDate = storyboard.instantiateViewController(withIdentifier: "FiveDaysSavedVC") as! FiveDaysSavedDataVC
         fiveDaysSavedDate.dateForFetch = date
@@ -183,10 +180,6 @@ class SavedTableViewController: UIViewController, UITableViewDelegate, UITableVi
             }else {
                 print("Error")
             }
-            
         }
     }
-
-    
-
 }

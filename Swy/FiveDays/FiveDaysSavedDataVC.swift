@@ -58,18 +58,20 @@ class FiveDaysSavedDataVC: UIViewController {
         let pattern = "\\b([0-9]|[012][0-9]|):([0-9])([0-9]):([0-9])([0-9])\\b"
         let regex = try? NSRegularExpression(pattern: pattern, options:[])
         guard let date = weatherForDate.dateDescription,
-            let match = regex?.firstMatch(in: date, options: [], range: NSRange(location: 0, length: date.count)),
             let town = weatherForDate.townDescription,
             let city = weatherForDate.countryDescription else {return}
+        print(date)
         var onlyHourText = ""
+        if  let match = regex?.firstMatch(in: date, options: [], range: NSRange(location: 0, length: date.count)){
+            
+            onlyHourText = String((date as NSString).substring(with: match.range))
+        }
         
-        for charr in date.enumerated(){
+       /* for charr in date.enumerated(){
             if match.range.contains(charr.offset){
-                
                 onlyHourText += "\(charr.element)"
             }
-        }
-  
+        }*/
         windDescriptionLabel.text = "\(weatherForDate.windDescription)"
         dateDescriptionLabel.text =  onlyHourText
         townDescriptionLabel.text = town + "," + city

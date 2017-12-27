@@ -12,7 +12,7 @@ import CoreLocation
 class LocationService : NSObject,CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager?
-    var currentLocation = String()
+   // var currentLocation = String()
     var locationManagerCallback : ((Double?, Double?) -> ())?
     static let sharedInstance:LocationService = {
         let instance = LocationService()
@@ -37,24 +37,20 @@ class LocationService : NSObject,CLLocationManagerDelegate {
         locationManagerCallback = completion
     }
     
-    @objc func getLocation (completion : @escaping (Double,Double) -> ()) {
+   /* @objc func getLocation (completion : @escaping (Double,Double) -> ()) {
         LocationService.sharedInstance.startUpdatingLocation(completion: {latitute,longitude  in
-          //  if let location = (currentLocation){
-                //print("lol\(location)")
-        
+
             guard let lat = latitute,
                 let lon = longitude else {return}
-                completion(lat,lon)
-           // }
+            completion(lat,lon)
         })
-    }
+    }*/
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        //currentLocation = "\(locValue.latitude),\(locValue.longitude)"
         self.locationManager?.stopUpdatingLocation()
-        locationManagerCallback?(locValue.latitude,locValue.longitude)
         print(locValue.latitude,locValue.longitude)
+        locationManagerCallback?(locValue.latitude,locValue.longitude)
     }
     
 }

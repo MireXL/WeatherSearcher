@@ -12,17 +12,14 @@ import Alamofire
 class ViewController: UIViewController {
     
     @IBOutlet weak var typeTextField: UITextField!
-    
     @IBOutlet weak var activityIndicatorForApiRequest: UIActivityIndicatorView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var nameButton: UIButton!
     @IBOutlet weak var fiveDayWeatherByNameButton: UIButton!
-    
     @IBOutlet weak var fiveDayWeatherByGeoButton: UIButton!
-    
     @IBOutlet weak var geoButton: UIButton!
     
-    @objc var nowWeather = true
+     var nowWeather = true
     
     override func viewDidLoad() {
        
@@ -45,8 +42,7 @@ class ViewController: UIViewController {
                        options: .curveEaseOut, animations: {
                         self.fiveDayWeatherByNameButton.center.x += self.view.bounds.width
                         
-        })
-        
+        })    
     }
     func showWeatherForNow(nowWeatherData : Any){
         if nowWeatherData as? Int == 404 {
@@ -97,7 +93,6 @@ class ViewController: UIViewController {
                 self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
         }else{
-            
             nameSearcher.getWeatherForFiveDays(params: ["q":"\(typedTown)"], completion: { fiveForecast in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showFiveDayForecast(fiveForecast: fiveForecast)
@@ -107,10 +102,24 @@ class ViewController: UIViewController {
     
     @IBAction func nowWeatherByGeo(_ sender: Any) {
         activityIndicatorForApiRequest.startAnimating()
-        
-        LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
+       /* LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
+            let geoSearcher = NetwokService()
+           
+            geoSearcher.getWeatherFrom(params:["lat":lat,"lon":lon], completion: { nowWeatherData in
+                print("location")
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showWeatherForNow(nowWeatherData: nowWeatherData)
+            })
+        })*/
+        LocationService.sharedInstance.startUpdatingLocation(completion: {(latitute,longitude) in
+
+            guard let lat = latitute,
+                let lon = longitude else {return}
+            print("Lcation \(lat), \(lon)")
+            
             let geoSearcher = NetwokService()
             geoSearcher.getWeatherFrom(params:["lat":lat,"lon":lon], completion: { nowWeatherData in
+                print("location")
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
@@ -127,16 +136,25 @@ class ViewController: UIViewController {
     
     @IBAction func showFiveDayWeatherByGeo(_ sender: Any) {
         activityIndicatorForApiRequest.startAnimating()
-        LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
+      /*  LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
             
             let fiveDaySearcher = NetwokService()
             fiveDaySearcher.getWeatherForFiveDays(params: ["lat":lat,"lon":lon], completion: { fiveForecast in
                 self.activityIndicatorForApiRequest.stopAnimating()
                 self.showFiveDayForecast(fiveForecast: fiveForecast)
             })
+        })*/
+        LocationService.sharedInstance.startUpdatingLocation(completion: {(latitute,longitude) in
             
+            guard let lat = latitute,
+                let lon = longitude else {return}
+            print("Lcation \(lat), \(lon)")
+            let fiveDaySearcher = NetwokService()
+            fiveDaySearcher.getWeatherForFiveDays(params: ["lat":lat,"lon":lon], completion: { fiveForecast in
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showFiveDayForecast(fiveForecast: fiveForecast)
+            })
         })
-        
     }
     
     @IBAction func fiveDayforecastByName(_ sender: Any) {

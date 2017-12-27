@@ -25,16 +25,13 @@ class CoreDataManager{
             print("Could not fetch. \(error), \(error.userInfo)")
         }
         forecast.sort(by: {$0.dateAndHour! < $1.dateAndHour!})
-       // print(forecast)
         return forecast
     }
     
     func fetchDescription(date:String, town :String) -> DescriptionOfData? {
         //print("fetch2")
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return nil}
-        
         let managedContext = appDelegate.persistentContainer.viewContext
-        
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DescriptionOfData")
         
         do {
@@ -42,46 +39,46 @@ class CoreDataManager{
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        //print(descriptionDate[0])
         var description = DescriptionOfData()
         for i in descriptionDate{
             if i.dateDescription == date && i.townDescription == town{
-
                 description = i
             }
         }
-        //print("Desctr \(description)")
         return description
     }
  
-    func updateDate(weatherToUpdate : [Weather],completion : @escaping () -> ()){
-        print("called")
+    func updateData(weatherToUpdate : [Weather],completion : @escaping () -> ()){
+        //print("called")
         let existingDataArr = fetchDateHour()
-        var newWeatherArr = weatherToUpdate
+        var WeatherArr = weatherToUpdate
+        let dateWeather = WeatherArr[0].date.split(separator: ",")
+        let onlyDateWeather = dateWeather[0].split(separator: "/")
+        print(onlyDateWeather)
         var updated = false
-        print("NewWeather - \(newWeatherArr[0].date)")
+       // print("NewWeather - \(newWeatherArr[0].date)")
         if existingDataArr.isEmpty == false{
             print("exist")
             for i in existingDataArr.reversed(){
                 guard let city =  i.cityForDate ,
                     let dateAndTime = i.dateAndHour else {return}
-                if city == newWeatherArr[0].cityName && dateAndTime < newWeatherArr[0].date{
+                let dateExist = dateAndTime.split(separator: ",")
+                let onlyDateExist = dateExist[0].split(separator: "/")
+                if city == WeatherArr[0].cityName && ((onlyDateExist[0] as NSString).integerValue < (onlyDateWeather[0] as NSString).integerValue || (onlyDateExist[1] as NSString).integerValue < (onlyDateWeather[1] as NSString).integerValue || (onlyDateExist[2] as NSString).integerValue < (onlyDateWeather[2] as NSString).integerValue || dateExist[1] < dateWeather[1]){
                     
-                    print("found")
-                    let statement = deleteData(dataToDelete: i)
-                    if statement == true{
+                    updated  = deleteData(dataToDelete: i)
+                    if updated == true{
                         print("was deleted\(i)")
-                        updated = true
                     }
                 }
             }
             if updated == true {
-                for i in newWeatherArr.enumerated().reversed(){
+               /* for i in newWeatherArr.enumerated().reversed(){
                     if newWeatherArr[0].date > newWeatherArr[i.offset].date{
                         newWeatherArr.remove(at: i.offset)
                     }
                 }//delete if  test data in network class not used */
-                saveData(dataToSave: newWeatherArr)
+                saveData(dataToSave: WeatherArr)
                 completion()
             }
         }
@@ -91,7 +88,6 @@ class CoreDataManager{
          let existingDataArr = fetchDateHour() 
         if existingDataArr.isEmpty == false{
             for i in existingDataArr.enumerated(){
-                
                 for j in  weatherChekedArr.enumerated().reversed(){
                     
                     if i.element.cityForDate == weatherChekedArr[j.offset].cityName && i.element.dateAndHour == weatherChekedArr[j.offset].date{
@@ -101,20 +97,14 @@ class CoreDataManager{
                 }
             }
         }
-
         return weatherChekedArr
     }
     func saveData(dataToSave : [Weather]){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
         let managedContext = appDelegate.persistentContainer.viewContext
-        print(dataToSave[0])
-
         let  arrayToSave = checkData(weatherToCheck: dataToSave)
-        
         if arrayToSave.isEmpty == false{
             for i in arrayToSave{
-                
                 let dataForecastDm = DataForecast(context: managedContext)
                 dataForecastDm.dateAndHour = i.date
                 dataForecastDm.cityForDate = i.cityName
@@ -141,9 +131,7 @@ class CoreDataManager{
     }
     func deleteData(dataToDelete:DataForecast)->Bool{
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return false }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
+        let managedContext = appDelegate.persistentContainer.viewContext
         managedContext.delete(dataToDelete)
         do {
             try managedContext.save()
