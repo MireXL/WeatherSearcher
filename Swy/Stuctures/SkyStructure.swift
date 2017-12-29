@@ -15,9 +15,7 @@ struct  Sky {
     init?(rawWeatherResponse: [[String: Any]]) {
         var temporaryDescription = ""
         var temopraryIcon = URL(string: "")
-        
         for element  in rawWeatherResponse{
-            
             if let descriptionWreatherArray = element ["description"] as? String,
                 let icon = element ["icon"] as? String{
                 
@@ -26,7 +24,6 @@ struct  Sky {
             }
     
         }
-    
         guard let iconForWeather = temopraryIcon else {return nil }
         self.description = temporaryDescription
         self.weatherIcon = iconForWeather
