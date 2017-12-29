@@ -12,8 +12,8 @@ import CoreLocation
 class LocationService : NSObject,CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager?
-    var currentLocation = String()
-    var locationManagerCallback : ((String?) -> ())?
+   // var currentLocation = String()
+    var locationManagerCallback : ((Double?, Double?) -> ())?
     static let sharedInstance:LocationService = {
         let instance = LocationService()
         return instance
@@ -23,9 +23,8 @@ class LocationService : NSObject,CLLocationManagerDelegate {
         
         self.locationManager = CLLocationManager()
         
-    }
-    
-    func startUpdatingLocation(completion : @escaping (String?) -> ()) {
+    }    
+    func startUpdatingLocation(completion : @escaping (Double?, Double?) -> ()) {
         print("Starting Location Updates")
         
         guard let locationManager = self.locationManager else {return}
@@ -38,21 +37,20 @@ class LocationService : NSObject,CLLocationManagerDelegate {
         locationManagerCallback = completion
     }
     
-    @objc func getLocation (completion : @escaping (String) -> ()) {
-        LocationService.sharedInstance.startUpdatingLocation(completion: {(currentLocation) in
-            if let location = (currentLocation){
-                //print("lol\(location)")
-                completion(location)
-            }
+   /* @objc func getLocation (completion : @escaping (Double,Double) -> ()) {
+        LocationService.sharedInstance.startUpdatingLocation(completion: {latitute,longitude  in
+
+            guard let lat = latitute,
+                let lon = longitude else {return}
+            completion(lat,lon)
         })
-    }
+    }*/
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
-        currentLocation = "lat=\(locValue.latitude)&lon=\(locValue.longitude)"
         self.locationManager?.stopUpdatingLocation()
-        locationManagerCallback?(currentLocation)
-        print(currentLocation)
+        print(locValue.latitude,locValue.longitude)
+        locationManagerCallback?(locValue.latitude,locValue.longitude)
     }
     
 }

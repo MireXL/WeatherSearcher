@@ -40,27 +40,26 @@ class FiveDaysTableViewCell: UITableViewCell {
     }
 
     func  cellFillFunc(cellFiller : Weather) {
-       
-        let element = cellFiller
-        townDescriptionLabel.text = "\(element.cityName),\(element.counrty)"
-        coordinatesDescriptionLabel.text = "\(element.geolocation.ln),\(element.geolocation.lt)"
-        dateDescriptionLabel.text = "\(element.date)"
-        windDescriptionLabel.text = "\( element.windSpeed)"
-        skyDescriptionLabel.text = "\(element.sky.description)"
-        if element.measurement.temp < 0 {
+        
+        townDescriptionLabel.text = "\(cellFiller.cityName),\(cellFiller.counrty)"
+        coordinatesDescriptionLabel.text = "\(cellFiller.geolocation.ln),\(cellFiller.geolocation.lt)"
+        dateDescriptionLabel.text = "\(cellFiller.date)"
+        windDescriptionLabel.text = "\( cellFiller.windSpeed)"
+        skyDescriptionLabel.text = "\(cellFiller.sky.description)"
+        if cellFiller.measurement.temp < 0 {
             
             temperatureDescriptionLabel.textColor = UIColor.lightBlue
             
-        }else if element.measurement.temp > 0 {
+        }else if cellFiller.measurement.temp > 0 {
             temperatureDescriptionLabel.textColor = UIColor.salatGreen
         }else {
             temperatureDescriptionLabel.textColor = UIColor.black
         }
-        temperatureDescriptionLabel.text = "\(String(format:"%.2f",element.measurement.temp)),Min:\(String(format:"%.2f",element.measurement.tempMax)),Max:\(String(format:"%.2f",element.measurement.tempMax))"
+        temperatureDescriptionLabel.text = "\(String(format:"%.2f",cellFiller.measurement.temp)),Min:\(String(format:"%.2f",cellFiller.measurement.tempMax)),Max:\(String(format:"%.2f",cellFiller.measurement.tempMax))"
         
-        pressureDescriptionLabel.text = "\(String(format:"%.2f",element.measurement.pressure))"
+        pressureDescriptionLabel.text = "\(String(format:"%.2f",cellFiller.measurement.pressure))"
         
-        iconImage.sd_setImage(with: element.sky.weatherIcon,
+        iconImage.sd_setImage(with: cellFiller.sky.weatherIcon,
                               placeholderImage: UIImage(named: "placeholder.png"))
     }
     

@@ -12,16 +12,14 @@ import Alamofire
 class ViewController: UIViewController {
     
     @IBOutlet weak var typeTextField: UITextField!
-    
+    @IBOutlet weak var activityIndicatorForApiRequest: UIActivityIndicatorView!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var nameButton: UIButton!
     @IBOutlet weak var fiveDayWeatherByNameButton: UIButton!
-    
     @IBOutlet weak var fiveDayWeatherByGeoButton: UIButton!
-    
     @IBOutlet weak var geoButton: UIButton!
     
-    @objc var nowWeather = true
+     var nowWeather = true
     
     override func viewDidLoad() {
        
@@ -44,79 +42,86 @@ class ViewController: UIViewController {
                        options: .curveEaseOut, animations: {
                         self.fiveDayWeatherByNameButton.center.x += self.view.bounds.width
                         
-        })
+        })    
+    }
+    func showWeatherForNow(nowWeatherData : Any){
+        if nowWeatherData as? Int == 404 {
+            self.errorLabel.isHidden = false
+            self.errorLabel.text  = "City not found"
+        } else if nowWeatherData as? String == "NetworkError"{
+            self.errorLabel.isHidden = false
+            self.errorLabel.text  = "Network Error"
+        }else {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
+            secondViewController.WeatherForNow =  nowWeatherData as? Weather
+            secondViewController.modalTransitionStyle = .flipHorizontal
+            self.present(secondViewController, animated: true, completion: nil)
+        }
+        
+    }
+    func showFiveDayForecast(fiveForecast : Any){
+        if fiveForecast as? Int == 404 {
+            self.errorLabel.isHidden = false
+            self.errorLabel.text  = "City not found"
+        }else if fiveForecast as? String == "NetworkError"{
+            self.errorLabel.isHidden = false
+            self.errorLabel.text  = "Network Error"
+        }else {
+            guard let fiveData = fiveForecast as? [Weather] else {return}
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
+            secondViewController.forecast = fiveData
+            secondViewController.modalTransitionStyle = .flipHorizontal
+            self.present(secondViewController, animated: true, completion: nil)
+        }
         
     }
     @IBAction func writeText(_ sender: Any) {
+        activityIndicatorForApiRequest.startAnimating()
         
         guard let whatTyped = typeTextField.text else {return}
         
-        let typedTown = String(whatTyped.characters.filter {$0 != " "})
+        let typedTown = String(whatTyped.filter {$0 != " "})
         print("\(typedTown)")
         
         let nameSearcher = NetwokService()
-        
         if nowWeather == true{
             
-            nameSearcher.getWeatherFrom(searchTypeForUrl: "q=\(typedTown)", completion: { nowWeatherData in
-                if nowWeatherData as? Int == 404 {
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "City not found"
-                } else if nowWeatherData as? String == "NetworkError"{
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "Network Error"
-                }else {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
-                    secondViewController.WeatherForNow =  nowWeatherData as? Weather
-                    secondViewController.modalTransitionStyle = .flipHorizontal
-                    self.present(secondViewController, animated: true, completion: nil)
-                }
+            nameSearcher.getWeatherFrom(params: ["q":"\(typedTown)"], completion: { nowWeatherData in
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
         }else{
-            
-            nameSearcher.getWeatherForFiveDays(searchTypeForUrl: "q=\(typedTown)", completion: { fiveForecast in
-                if fiveForecast as? Int == 404 {
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "City not found"
-                }else if fiveForecast as? String == "NetworkError"{
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "Network Error"
-                }else {
-                    guard let fiveData = fiveForecast as? [Weather] else {return}
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
-                    secondViewController.forecast = fiveData
-                    secondViewController.modalTransitionStyle = .flipHorizontal
-                    self.present(secondViewController, animated: true, completion: nil)
-                }
+            nameSearcher.getWeatherForFiveDays(params: ["q":"\(typedTown)"], completion: { fiveForecast in
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showFiveDayForecast(fiveForecast: fiveForecast)
             })
-            
         }
     }
     
     @IBAction func nowWeatherByGeo(_ sender: Any) {
-        
-        let getGreoLocation = LocationService()
-        
-        getGreoLocation.getLocation(completion: { location in
+        activityIndicatorForApiRequest.startAnimating()
+       /* LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
+            let geoSearcher = NetwokService()
+           
+            geoSearcher.getWeatherFrom(params:["lat":lat,"lon":lon], completion: { nowWeatherData in
+                print("location")
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showWeatherForNow(nowWeatherData: nowWeatherData)
+            })
+        })*/
+        LocationService.sharedInstance.startUpdatingLocation(completion: {(latitute,longitude) in
+
+            guard let lat = latitute,
+                let lon = longitude else {return}
+            print("Lcation \(lat), \(lon)")
             
             let geoSearcher = NetwokService()
-            geoSearcher.getWeatherFrom(searchTypeForUrl: location, completion: { nowWeatherData in
-                if nowWeatherData as? Int == 404 {
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "City not found"
-                }else if nowWeatherData as? String == "NetworkError"{
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "Network Error"
-                } else {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let secondViewController = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
-                    secondViewController.WeatherForNow =  nowWeatherData as? Weather
-                    secondViewController.modalTransitionStyle = .flipHorizontal
-                    self.present(secondViewController, animated: true, completion: nil)
-                    
-                }
+            geoSearcher.getWeatherFrom(params:["lat":lat,"lon":lon], completion: { nowWeatherData in
+                print("location")
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showWeatherForNow(nowWeatherData: nowWeatherData)
             })
         })
         
@@ -130,30 +135,26 @@ class ViewController: UIViewController {
     }
     
     @IBAction func showFiveDayWeatherByGeo(_ sender: Any) {
-        let getGreoLocation = LocationService()
-        
-        getGreoLocation.getLocation(completion: { location in
+        activityIndicatorForApiRequest.startAnimating()
+      /*  LocationService.sharedInstance.getLocation(completion: { (lat,lon) in
             
             let fiveDaySearcher = NetwokService()
-            fiveDaySearcher.getWeatherForFiveDays(searchTypeForUrl: location, completion: { fiveForecast in
-                if fiveForecast as? Int == 404 {
-                    self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "City not found"
-                } else if fiveForecast as? String == "NetworkError"{
-                        self.errorLabel.isHidden = false
-                    self.errorLabel.text  = "Network Error"
-                    } else{
-                        guard let fiveData = fiveForecast as? [Weather] else {return}
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let secondViewController = storyboard.instantiateViewController(withIdentifier: "FiveDayTableViewController") as! FiveDayTableViewController
-                        secondViewController.forecast = fiveData
-                        secondViewController.modalTransitionStyle = .flipHorizontal
-                        self.present(secondViewController, animated: true, completion: nil)
-                }
+            fiveDaySearcher.getWeatherForFiveDays(params: ["lat":lat,"lon":lon], completion: { fiveForecast in
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showFiveDayForecast(fiveForecast: fiveForecast)
             })
+        })*/
+        LocationService.sharedInstance.startUpdatingLocation(completion: {(latitute,longitude) in
             
+            guard let lat = latitute,
+                let lon = longitude else {return}
+            print("Lcation \(lat), \(lon)")
+            let fiveDaySearcher = NetwokService()
+            fiveDaySearcher.getWeatherForFiveDays(params: ["lat":lat,"lon":lon], completion: { fiveForecast in
+                self.activityIndicatorForApiRequest.stopAnimating()
+                self.showFiveDayForecast(fiveForecast: fiveForecast)
+            })
         })
-        
     }
     
     @IBAction func fiveDayforecastByName(_ sender: Any) {

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0017DAF22FF3D068982013561346066"
-               BuildableName = "Pods_Swy.framework"
-               BlueprintName = "Pods-Swy"
+               BlueprintIdentifier = "809463219ED0A00088BB0753D65348EB"
+               BuildableName = "FSLineChart.framework"
+               BlueprintName = "FSLineChart"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0017DAF22FF3D068982013561346066"
-            BuildableName = "Pods_Swy.framework"
-            BlueprintName = "Pods-Swy"
+            BlueprintIdentifier = "809463219ED0A00088BB0753D65348EB"
+            BuildableName = "FSLineChart.framework"
+            BlueprintName = "FSLineChart"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
